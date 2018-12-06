@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/plugins/qvisualize" >
+        <file>icon.png</file>
+    </qresource>
+</RCC>
