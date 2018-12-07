@@ -52,12 +52,16 @@
     <item>
      <widget class="QLabel" name="label">
       <property name="text">
-       <string>Select a layer for visualize: </string>
+       <string>Select a point layer for visualize: </string>
       </property>
      </widget>
     </item>
     <item>
-     <widget class="QComboBox" name="comboBox"/>
+     <widget class="QComboBox" name="comboBox">
+      <property name="toolTip">
+       <string>Note: Layers must be visible!</string>
+      </property>
+     </widget>
     </item>
    </layout>
   </widget>
@@ -113,14 +117,14 @@
     <item>
      <widget class="QRadioButton" name="allfeature">
       <property name="text">
-       <string>Show all features</string>
+       <string>Accumulative</string>
       </property>
      </widget>
     </item>
     <item>
      <widget class="QRadioButton" name="finalfeature">
       <property name="text">
-       <string>Show the final feature</string>
+       <string>Current only</string>
       </property>
       <property name="checked">
        <bool>true</bool>
