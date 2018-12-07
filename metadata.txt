@@ -9,12 +9,12 @@
 [general]
 name=QVisualize
 qgisMinimumVersion=3.0
-description=Visualize a point layer on canvas map
+description=This tool can be used to visualize features of a point layer one by one
 version=0.1
 author=Marios S. Kyriakou, KIOS Research and Innovation Center of Excellence (KIOS CoE)
 email=mariosmsk@gmail.com
 
-about=Visualize a point layer on canvas map. For example, you can visualize a car/bird/boat or anything you want.
+about=This tool can be used to visualize features of a point layer one by one. Specifically, you can select a point layer to be visualized, then select the desired time delay (in seconds) and the accumulative or current only display. Then the point features in the layer will appear one by one according. You can use it for example to visualize a moving car/bird/boat etc.
 
 tracker=https://github.com/KIOS-Research/QVisualize/issues/
 repository=https://github.com/KIOS-Research/QVisualize/
