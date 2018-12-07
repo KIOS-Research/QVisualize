@@ -10,7 +10,7 @@
 name=QVisualize
 qgisMinimumVersion=3.0
 description=This tool can be used to visualize features of a point layer one by one
-version=0.1
+version=0.2
 author=Marios S. Kyriakou, KIOS Research and Innovation Center of Excellence (KIOS CoE)
 email=mariosmsk@gmail.com
 
