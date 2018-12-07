@@ -178,8 +178,16 @@ class QVisualize:
 
         self.dlg.start.clicked.connect(self.start)
         self.dlg.close_btn.clicked.connect(self.close)
+        self.dlg.allfeature.clicked.connect(self.allfeature)
+        self.dlg.finalfeature.clicked.connect(self.finalfeature)
 
         self.canvas = self.iface.mapCanvas()
+
+    def finalfeature(self):
+        pass
+
+    def allfeature(self):
+        pass
 
     def close(self):
         self.dlg.close()
@@ -199,10 +207,11 @@ class QVisualize:
         self.temp_data.addAttributes(attr)
         self.temp.updateFields()
 
-        if self.show__all_data == False:
-            for i, elem in enumerate(self.selected_layer.getFeatures()):
-                self.temp.startEditing()
+        FEATURES = self.selected_layer.getFeatures()
+        if not self.show__all_data:
+            for i, elem in enumerate(FEATURES):
                 feat = QgsFeature()
+                self.temp.startEditing()
                 feat.setGeometry(elem.geometry())
                 feat.setAttributes([str(i)])
                 self.temp.addFeatures([feat])
@@ -214,24 +223,36 @@ class QVisualize:
         else:
             feat_tmp = QgsFeature()
 
-        for i, elem in enumerate(self.selected_layer.getFeatures()):
-            task.setProgress(i)
+        if self.show__all_data:
             self.temp.startEditing()
-            if self.show__all_data == False:
+        for i, elem in enumerate(FEATURES):
+            task.setProgress((i/self.total)*100)
+            if not self.show__all_data:
+                self.temp.startEditing()
                 self.temp.changeGeometry(feat_tmp.id(), elem.geometry())
             else:
                 feat_tmp.setGeometry(elem.geometry())
                 feat_tmp.setAttributes([str(i)])
                 self.temp.addFeatures([feat_tmp])
             feat_tmp.setAttributes([str(i)])
-            self.temp.commitChanges()
+
             sleep(wait_time)
+
+            if not self.show__all_data:
+                self.temp.commitChanges()
+            else:
+                self.temp.triggerRepaint()
 
             if task.isCanceled():
                 self.stopped(task)
                 return None
+        self.temp.commitChanges()
 
     def stopped(self, task):
+        try:
+            self.temp.commitChanges()
+        except:
+            pass
         QgsMessageLog.logMessage(
             'Task "{name}" was canceled'.format(
                 name=task.description()),
@@ -289,6 +310,7 @@ class QVisualize:
             self.selected_layer = self.layer_list[self.selected_layer_index]
             self.iface.setActiveLayer(self.selected_layer)
 
+            self.total = self.selected_layer.featureCount()
             # Time delay
             time_delay = self.dlg.time_delay.value()
 
