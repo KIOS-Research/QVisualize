@@ -230,18 +230,14 @@ class QVisualize:
             if not self.show__all_data:
                 self.temp.startEditing()
                 self.temp.changeGeometry(feat_tmp.id(), elem.geometry())
+                self.temp.commitChanges()
             else:
                 feat_tmp.setGeometry(elem.geometry())
                 feat_tmp.setAttributes([str(i)])
                 self.temp.addFeatures([feat_tmp])
-            feat_tmp.setAttributes([str(i)])
 
             sleep(wait_time)
-
-            if not self.show__all_data:
-                self.temp.commitChanges()
-            else:
-                self.temp.triggerRepaint()
+            self.temp.triggerRepaint()
 
             if task.isCanceled():
                 self.stopped(task)
@@ -291,14 +287,14 @@ class QVisualize:
         # Initial layer list
         self.layer_list_name = []
         self.layer_list = []
+        self.shp_type = 'Point'
         for layer in self.canvas.layers():
             if layer.type() == 0: #vectorlayer
-                if layer.wkbType() == 1:
-                    #type_layer = 'Point'
+                if layer.wkbType() == 1 or layer.wkbType() == 3:
                     self.layer_list_name.append(layer.name())
                     self.layer_list.append(layer)
-        self.dlg.comboBox.addItems(self.layer_list_name)
 
+        self.dlg.comboBox.addItems(self.layer_list_name)
         self.dlg.show()
 
     def start(self):
@@ -309,6 +305,9 @@ class QVisualize:
             self.selected_layer_index = self.layer_list_name.index(self.currentLayer)
             self.selected_layer = self.layer_list[self.selected_layer_index]
             self.iface.setActiveLayer(self.selected_layer)
+
+            if self.selected_layer.wkbType() == 3:
+                self.shp_type = 'Polygon'
 
             self.total = self.selected_layer.featureCount()
             # Time delay
@@ -323,7 +322,7 @@ class QVisualize:
             self.selected_layer.saveNamedStyle(self.plugin_dir + "\\tmp.qml")
             self.project.layerTreeRoot().findLayer(self.selected_layer.id()).setItemVisibilityChecked(False)
 
-            self.temp = QgsVectorLayer("Point"+"?crs=" + self.selected_layer.crs().authid(), self.currentLayer+"_qvisualize", "memory")
+            self.temp = QgsVectorLayer(self.shp_type+"?crs=" + self.selected_layer.crs().authid(), self.currentLayer+"_qvisualize", "memory")
             self.temp.loadNamedStyle(self.plugin_dir + "\\tmp.qml")
 
             self.temp_data = self.temp.dataProvider()
