@@ -9,13 +9,17 @@
 [general]
 name=QVisualize
 qgisMinimumVersion=3.0
-description=This tool can be used to visualize features of a point layer one by one
-version=0.3
+description=This tool can be used to visualize features of a point/polygon layer one by one.
+version=0.4
 author=Marios S. Kyriakou, KIOS Research and Innovation Center of Excellence (KIOS CoE)
 email=mariosmsk@gmail.com
 
-about=This tool can be used to visualize the features of a point layer one by one. Specifically, you can select a point layer to be visualized, then select the desired time delay (in seconds) and the accumulative or current only display. Then the point features in the layer will appear one by one according. You can use it for example to visualize a moving car/bird/boat etc.
-
+about= This tool can be used to visualize the features of a point/polygon layer one by one. 
+	   Specifically, you can select a point/polygon layer to be visualized, then select the desired time delay 
+	  (in seconds) and the accumulative or current only display. Then the point/polygon features in the layer 
+	  will appear one by one according. You can use it for example to visualize a moving car/bird/boat/buildings etc.
+	  <strong>Video example:</strong> <a href="https://www.youtube.com/watch?v=VDwKueEliEw" target="_blank">QVisualize</a>
+	   
 tracker=https://github.com/KIOS-Research/QVisualize/issues/
 repository=https://github.com/KIOS-Research/QVisualize/
 # End of mandatory metadata
@@ -23,10 +27,12 @@ repository=https://github.com/KIOS-Research/QVisualize/
 # Recommended items:
 
 # Uncomment the following line and add your changelog:
-# changelog=
+# changelog=2018-12-10  QVisualize 0.4:
+			Add polygon layer
+			Fix an issue on Current only option
 
 # Tags are comma separated with spaces allowed
-tags=python, visualize, car, movement layer, boat, bird
+tags=python, visualize, car, movement layer, boat, bird, buildings
 
 homepage=https://github.com/KIOS-Research/QVisualize/
 category=Plugins
