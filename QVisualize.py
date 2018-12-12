@@ -306,8 +306,10 @@ class QVisualize:
             self.selected_layer = self.layer_list[self.selected_layer_index]
             self.iface.setActiveLayer(self.selected_layer)
 
-            if self.selected_layer.wkbType() == 3 or self.selected_layer.wkbType() == 6:
+            if self.selected_layer.wkbType() == 3:
                 self.shp_type = 'Polygon'
+            if self.selected_layer.wkbType() == 6:
+                self.shp_type = 'MultiPolygon'
 
             self.total = self.selected_layer.featureCount()
             # Time delay
