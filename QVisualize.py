@@ -290,7 +290,7 @@ class QVisualize:
         self.shp_type = 'Point'
         for layer in self.canvas.layers():
             if layer.type() == 0: #vectorlayer
-                if layer.wkbType() == 1 or layer.wkbType() == 3:
+                if layer.wkbType() == 1 or layer.wkbType() == 3 or layer.wkbType() == 6:
                     self.layer_list_name.append(layer.name())
                     self.layer_list.append(layer)
 
@@ -306,7 +306,7 @@ class QVisualize:
             self.selected_layer = self.layer_list[self.selected_layer_index]
             self.iface.setActiveLayer(self.selected_layer)
 
-            if self.selected_layer.wkbType() == 3:
+            if self.selected_layer.wkbType() == 3 or self.selected_layer.wkbType() == 6:
                 self.shp_type = 'Polygon'
 
             self.total = self.selected_layer.featureCount()
