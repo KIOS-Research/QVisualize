@@ -21,8 +21,8 @@
  *                                                                         *
  ***************************************************************************/
 """
-from PyQt5.QtCore import (QSettings, QTranslator, qVersion, QCoreApplication, QVariant)
-from PyQt5.QtGui import (QIcon, QApplication)
+from PyQt5.QtCore import (QSettings, QTranslator, qVersion, QCoreApplication, QVariant, Qt)
+from PyQt5.QtGui import (QIcon)
 from PyQt5.QtWidgets import (QAction, QTableWidgetItem, QDockWidget, QProgressBar, QMessageBox, QWidget, QFileDialog)
 from qgis.core import (QgsVectorLayer, QgsCoordinateReferenceSystem, QgsTask, QgsProject, QgsMessageLog, QgsApplication, QgsField,
                        QgsWkbTypes, QgsFeature)
@@ -298,10 +298,18 @@ class QVisualize:
         self.dlg.show()
 
     def start(self):
-            self.dlg.close()
-
             # Layer selection
             self.currentLayer = self.dlg.comboBox.currentText()
+            if self.currentLayer == '':
+                msgBox = QMessageBox()
+                msgBox.setIcon(QMessageBox.Warning)
+                msgBox.setWindowTitle('QVisualize')
+                msgBox.setText('Select a point/polygon layer.')
+                msgBox.setStandardButtons(QMessageBox.Ok)
+                msgBox.setWindowFlags(Qt.CustomizeWindowHint | Qt.WindowStaysOnTopHint | Qt.WindowCloseButtonHint)
+                msgBox.exec_()
+                return
+
             self.selected_layer_index = self.layer_list_name.index(self.currentLayer)
             self.selected_layer = self.layer_list[self.selected_layer_index]
             self.iface.setActiveLayer(self.selected_layer)
@@ -332,3 +340,4 @@ class QVisualize:
             task = QgsTask.fromFunction(u'QVisualize', self.run_task,
                                         on_finished=self.completed, wait_time=time_delay)
             QgsApplication.taskManager().addTask(task)
+            self.dlg.close()
