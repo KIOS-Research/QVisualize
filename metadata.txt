@@ -10,7 +10,7 @@
 name=QVisualize
 qgisMinimumVersion=3.0
 description=This tool can be used to visualize features of a point/polygon layer one by one.
-version=0.5
+version=0.6
 author=Marios S. Kyriakou, KIOS Research and Innovation Center of Excellence (KIOS CoE)
 email=mariosmsk@gmail.com
 
@@ -27,7 +27,9 @@ repository=https://github.com/KIOS-Research/QVisualize/
 # Recommended items:
 
 # Uncomment the following line and add your changelog:
-# changelog=2018-12-13  QVisualize 0.5:
+# changelog=2018-12-13  QVisualize 0.6:
+			Add pointzm layer
+			2018-12-13  QVisualize 0.5:
 			Fix issue when install
 			2018-12-10  QVisualize 0.4:
 			Add polygon layer
