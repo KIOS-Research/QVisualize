@@ -298,48 +298,48 @@ class QVisualize:
         self.dlg.show()
 
     def start(self):
-            # Layer selection
-            self.currentLayer = self.dlg.comboBox.currentText()
-            if self.currentLayer == '':
-                msgBox = QMessageBox()
-                msgBox.setIcon(QMessageBox.Warning)
-                msgBox.setWindowTitle('QVisualize')
-                msgBox.setText('Select a point/polygon layer.')
-                msgBox.setStandardButtons(QMessageBox.Ok)
-                msgBox.setWindowFlags(Qt.CustomizeWindowHint | Qt.WindowStaysOnTopHint | Qt.WindowCloseButtonHint)
-                msgBox.exec_()
-                return
+        # Layer selection
+        self.currentLayer = self.dlg.comboBox.currentText()
+        if self.currentLayer == '':
+            msgBox = QMessageBox()
+            msgBox.setIcon(QMessageBox.Warning)
+            msgBox.setWindowTitle('QVisualize')
+            msgBox.setText('Select a point/polygon layer.')
+            msgBox.setStandardButtons(QMessageBox.Ok)
+            msgBox.setWindowFlags(Qt.CustomizeWindowHint | Qt.WindowStaysOnTopHint | Qt.WindowCloseButtonHint)
+            msgBox.exec_()
+            return
 
-            self.selected_layer_index = self.layer_list_name.index(self.currentLayer)
-            self.selected_layer = self.layer_list[self.selected_layer_index]
-            self.iface.setActiveLayer(self.selected_layer)
+        self.selected_layer_index = self.layer_list_name.index(self.currentLayer)
+        self.selected_layer = self.layer_list[self.selected_layer_index]
+        self.iface.setActiveLayer(self.selected_layer)
 
-            if self.selected_layer.wkbType() == 3:
-                self.shp_type = 'Polygon'
-            if self.selected_layer.wkbType() == 6:
-                self.shp_type = 'MultiPolygon'
-            if self.selected_layer.wkbType() == 3001:
-                self.shp_type = 'PointZM'
+        if self.selected_layer.wkbType() == 3:
+            self.shp_type = 'Polygon'
+        if self.selected_layer.wkbType() == 6:
+            self.shp_type = 'MultiPolygon'
+        if self.selected_layer.wkbType() == 3001:
+            self.shp_type = 'PointZM'
 
-            self.total = self.selected_layer.featureCount()
-            # Time delay
-            time_delay = self.dlg.time_delay.value()
+        self.total = self.selected_layer.featureCount()
+        # Time delay
+        time_delay = self.dlg.time_delay.value()
 
-            # All features or final show
-            if self.dlg.allfeature.isChecked():
-                self.show__all_data = True
-            if self.dlg.finalfeature.isChecked():
-                self.show__all_data = False
+        # All features or final show
+        if self.dlg.allfeature.isChecked():
+            self.show__all_data = True
+        if self.dlg.finalfeature.isChecked():
+            self.show__all_data = False
 
-            self.selected_layer.saveNamedStyle(self.plugin_dir + "\\tmp.qml")
-            self.project.layerTreeRoot().findLayer(self.selected_layer.id()).setItemVisibilityChecked(False)
+        self.selected_layer.saveNamedStyle(self.plugin_dir + "\\tmp.qml")
+        self.project.layerTreeRoot().findLayer(self.selected_layer.id()).setItemVisibilityChecked(False)
 
-            self.temp = QgsVectorLayer(self.shp_type+"?crs=" + self.selected_layer.crs().authid(), self.currentLayer+"_qvisualize", "memory")
-            self.temp.loadNamedStyle(self.plugin_dir + "\\tmp.qml")
+        self.temp = QgsVectorLayer(self.shp_type+"?crs=" + self.selected_layer.crs().authid(), self.currentLayer+"_qvisualize", "memory")
+        self.temp.loadNamedStyle(self.plugin_dir + "\\tmp.qml")
 
-            self.temp_data = self.temp.dataProvider()
-            self.project.addMapLayer(self.temp)
-            task = QgsTask.fromFunction(u'QVisualize', self.run_task,
-                                        on_finished=self.completed, wait_time=time_delay)
-            QgsApplication.taskManager().addTask(task)
-            self.dlg.close()
+        self.temp_data = self.temp.dataProvider()
+        self.project.addMapLayer(self.temp)
+        task = QgsTask.fromFunction(u'QVisualize', self.run_task,
+                                    on_finished=self.completed, wait_time=time_delay)
+        QgsApplication.taskManager().addTask(task)
+        self.dlg.close()
